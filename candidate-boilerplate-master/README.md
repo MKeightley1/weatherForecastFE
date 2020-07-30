@@ -81,11 +81,13 @@ Once both node and php servers are running - navigate to the url: http://127.0.0
 3. Attempted to use tailwind but was not sure how far to go with css. Might need to add more to the dropdown in future.
 4. Should have seperated the fetch out of the component so it could be re-used through out code.
 5. Components are very specific - would have like to make them more generic and re-usable.
+6. Noticed the format of the table data is different to my format. Will need to make this consisant with design.
 
 ### Limitations/issues
 1. Have hardcoded list of Australian cities for demonstrate
 2. A bug was found where the user needs to select a city a second time to trigger data in to display
 3. 2 classes were coded in 1 file - prefer to seperate these.
+
 
 
 
