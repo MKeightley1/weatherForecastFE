@@ -68914,13 +68914,180 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
+/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_1__);
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
 
-var App = function App() {
-  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Hello World");
-};
 
-/* harmony default export */ __webpack_exports__["default"] = (App);
+
+var selectForecastForm =
+/*#__PURE__*/
+function (_Component) {
+  _inherits(selectForecastForm, _Component);
+
+  function selectForecastForm() {
+    _classCallCheck(this, selectForecastForm);
+
+    return _possibleConstructorReturn(this, _getPrototypeOf(selectForecastForm).apply(this, arguments));
+  }
+
+  _createClass(selectForecastForm, [{
+    key: "render",
+    value: function render() {
+      var listOfCities = [{
+        value: 'Sydney',
+        display: 'Sydney'
+      }, {
+        value: 'Melbourne',
+        display: 'Melbourne'
+      }, {
+        value: 'Brisbane',
+        display: 'Brisbane'
+      }, {
+        value: 'Perth',
+        display: 'Perth'
+      }, {
+        value: 'Adelaide',
+        display: 'Adelaide'
+      }, {
+        value: 'Newcastle',
+        display: 'Newcastle'
+      }, {
+        value: 'Canberra',
+        display: 'Canberra'
+      }];
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(Selectdropdown, {
+        cities: listOfCities
+      }));
+    }
+  }]);
+
+  return selectForecastForm;
+}(react__WEBPACK_IMPORTED_MODULE_0__["Component"]);
+
+var Selectdropdown =
+/*#__PURE__*/
+function (_Component2) {
+  _inherits(Selectdropdown, _Component2);
+
+  function Selectdropdown(props) {
+    var _this;
+
+    _classCallCheck(this, Selectdropdown);
+
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(Selectdropdown).call(this, props)); //set state parameters
+
+    _this.state = {
+      //collection of given cities
+      cities: _this.props.cities,
+      selectedCity: "",
+      validationError: "",
+      cityForecastData: []
+    };
+    _this.evenDropdown = _this.evenDropdown.bind(_assertThisInitialized(_this));
+    return _this;
+  }
+
+  _createClass(Selectdropdown, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      this.setState({
+        cities: [{
+          value: '',
+          display: '(Select your city)'
+        }].concat(this.state.cities)
+      });
+    }
+  }, {
+    key: "evenDropdown",
+    value: function evenDropdown(e) {
+      var _this2 = this;
+
+      this.setState({
+        selectedCity: e.target.value,
+        validationError: e.target.value === "" ? "You must select a city" : ""
+      });
+
+      if (this.state.selectedCity !== "") {
+        fetch('http://127.0.0.1:8000/api/forecast/' + this.state.selectedCity).then(function (response) {
+          return response.json();
+        }).then(function (data) {
+          _this2.setState({
+            cityForecastData: data.map(function (city) {
+              return {
+                temp_max: city.temp_max,
+                temp_min: city.temp_min,
+                humidity: city.humidity,
+                weather: city.weather.main
+              };
+            })
+          });
+        })["catch"](function (error) {
+          console.log(error);
+        });
+      }
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
+        value: this.state.selectedCity,
+        onChange: this.evenDropdown
+      }, this.state.cities.map(function (city) {
+        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+          key: city.value,
+          value: city.value
+        }, city.display);
+      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "text-red-600"
+      }, this.state.validationError), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", {
+        className: "table-auto"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("thead", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
+        className: "px-4 py-2"
+      }, "TempMax"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
+        className: "px-4 py-2"
+      }, "TempMin"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
+        className: "px-4 py-2"
+      }, "Humidity"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
+        className: "px-4 py-2"
+      }, "Weather"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null, this.state.cityForecastData.map(function (forecast, i) {
+        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", {
+          key: i,
+          className: "bg-gray-100"
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
+          className: "border px-4 py-2"
+        }, forecast.temp_max), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
+          className: "border px-4 py-2"
+        }, forecast.temp_min), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
+          className: "border px-4 py-2"
+        }, forecast.humidity), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
+          className: "border px-4 py-2"
+        }, forecast.weather));
+      }))));
+    }
+  }]);
+
+  return Selectdropdown;
+}(react__WEBPACK_IMPORTED_MODULE_0__["Component"]);
+
+/* harmony default export */ __webpack_exports__["default"] = (selectForecastForm);
 
 /***/ }),
 
@@ -68942,8 +69109,8 @@ var App = function App() {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /Users/james/Code/candidate-tests/rhys/forecast-backend/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /Users/james/Code/candidate-tests/rhys/forecast-backend/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\devTools\php\php-7.3\weatherforcastFE\candidate-boilerplate-master\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\devTools\php\php-7.3\weatherforcastFE\candidate-boilerplate-master\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })
